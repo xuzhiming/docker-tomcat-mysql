@@ -12,4 +12,11 @@ else
     echo "=> Using an existing volume of MySQL"
 fi
 
+groupadd elsearchg
+useradd elsearch -g elsearchg -p elasticsearch
+chown -R elsearch:elsearchg $ES_HOME 
+chown elsearch:elsearchg /start-es.sh
+su elsearch -c "/opt/elasticsearch-6.6.2/bin/elasticsearch -d"
+# $ES_HOME/bin/elasticsearch
+
 exec supervisord -n
