@@ -46,6 +46,9 @@ ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 ADD my.cnf /etc/mysql/conf.d/my.cnf
 RUN chmod 644 /etc/mysql/conf.d/my.cnf
+Add mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
+
+ADD elasticsearch.yml $ES_HOME/config/elasticsearch.yml
 ADD supervisord-tomcat.conf /etc/supervisor/conf.d/supervisord-tomcat.conf
 ADD supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
 # ADD supervisord-elasticsearch.conf /etc/supervisor/conf.d/supervisord-es.conf
@@ -63,6 +66,6 @@ WORKDIR $TOMCAT_HOME
 # Add volumes for MySQL 
 VOLUME  ["/etc/mysql", "/var/lib/mysql"]
 
-EXPOSE 8080 3306 9200
+EXPOSE 8080 3306 9200 9300
 
 ENTRYPOINT ["/run.sh"]
