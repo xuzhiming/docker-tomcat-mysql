@@ -46,7 +46,7 @@ ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 ADD my.cnf /etc/mysql/conf.d/my.cnf
 RUN chmod 644 /etc/mysql/conf.d/my.cnf
-Add mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
+ADD mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
 
 ADD elasticsearch.yml $ES_HOME/config/elasticsearch.yml
 ADD supervisord-tomcat.conf /etc/supervisor/conf.d/supervisord-tomcat.conf
