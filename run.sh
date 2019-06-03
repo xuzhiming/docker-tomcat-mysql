@@ -12,10 +12,15 @@ else
     echo "=> Using an existing volume of MySQL"
 fi
 
-groupadd elsearchg
-useradd elsearch -g elsearchg -p elasticsearch
-chown -R elsearch:elsearchg $ES_HOME 
-chown elsearch:elsearchg /start-es.sh
+if [[ `compgen -u | grep elsearch` == "elsearch" ]]; then
+    echo 'User elsearch exist'
+else
+    groupadd elsearchg
+    useradd elsearch -g elsearchg -p elasticsearch
+    chown -R elsearch:elsearchg $ES_HOME 
+    chown elsearch:elsearchg /start-es.sh
+fi
+
 su elsearch -c "$ES_HOME/bin/elasticsearch -d"
 # $ES_HOME/bin/elasticsearch
 
