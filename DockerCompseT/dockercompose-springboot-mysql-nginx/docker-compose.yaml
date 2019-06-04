@@ -1,0 +1,47 @@
+version: '3'
+services:
+  nginx:
+   container_name: v-nginx
+   image: nginx:1.13
+   restart: always
+   ports:
+   - 8082:80
+   - 443:443
+   volumes:
+   - ./nginx/conf.d:/etc/nginx/conf.d
+
+  elasticsearch:
+    container_name: v-elastic
+    image: elasticsearch:6.7.1
+    restart: always
+    ports:
+    - 9201:9200
+    
+  mysql:
+    container_name: v-mysql
+    image: mysql/mysql-server:5.7
+    environment:
+    # MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./mysql/init.d:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
+    restart: always
+    
+  app:
+    container_name: v-app
+    restart: always
+    build: ./app
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - ~/.m2:/root/.m2
+    expose:
+      - "8080"
+    depends_on:
+      - nginx
+      - mysql
+      - elasticsearch
+    command: mvn clean spring-boot:run -Dspring-boot.run.profiles=docker

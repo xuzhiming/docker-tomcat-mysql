@@ -1,5 +1,4 @@
 FROM openjdk:8-jdk
-MAINTAINER Manuel de la Peña <manuel.delapenya@liferay.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TOMCAT_MAJOR_VERSION=7
@@ -46,9 +45,11 @@ ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 ADD my.cnf /etc/mysql/conf.d/my.cnf
 RUN chmod 644 /etc/mysql/conf.d/my.cnf
-ADD mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
 
+# comment this out if in product env
+ADD mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
 ADD elasticsearch.yml $ES_HOME/config/elasticsearch.yml
+
 ADD supervisord-tomcat.conf /etc/supervisor/conf.d/supervisord-tomcat.conf
 ADD supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
 # ADD supervisord-elasticsearch.conf /etc/supervisor/conf.d/supervisord-es.conf
